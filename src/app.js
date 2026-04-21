@@ -7,7 +7,7 @@ import { logger } from "./middlewares/logger.js";
 const app = express();
 
 app.use(cors({
-  origin: "https://trackpulse-web-seven.vercel.app",
+  origin: process.env.CLIENT_URL,
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 }));
