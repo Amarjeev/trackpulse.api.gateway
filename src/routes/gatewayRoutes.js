@@ -22,7 +22,7 @@ router.use(
     pathRewrite: {
       "^/auth": "",
     },
-  })
+  }),
 );
 
 /* FLEET SERVICE (protected) */
@@ -41,7 +41,7 @@ router.use(
         proxyReq.setHeader("x-user-role", req.user.role);
       }
     },
-  })
+  }),
 );
 
 export default router;
