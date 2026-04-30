@@ -37,6 +37,6 @@ export const verifyToken = async (req, res, next) => {
 
     next();
   } catch (err) {
-    throw new AppError("Invalid access token1", 401);
+    return res.status(401).json({ message: "Invalid access token1" });
   }
 };
