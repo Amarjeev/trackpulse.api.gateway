@@ -44,4 +44,15 @@ router.use(
   }),
 );
 
+/* MOBILE SERVICE */
+router.use(
+  "/mobile",
+  createProxyMiddleware({
+    target: process.env.MOBILE_SERVICE,
+    changeOrigin: true,
+    pathRewrite: { "^/mobile": "" },
+  }),
+);
+
+
 export default router;
