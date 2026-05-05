@@ -1,6 +1,9 @@
 import express from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
-import { verifyToken } from "../middlewares/authMiddleware.js";
+import {
+  verifyWebToken,
+  verifyMobileToken,
+} from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
@@ -28,7 +31,7 @@ router.use(
 /* FLEET SERVICE (protected) */
 router.use(
   "/fleet",
-  verifyToken,
+  verifyWebToken,
   createProxyMiddleware({
     target: process.env.FLEET_SERVICE,
     changeOrigin: true,
@@ -36,23 +39,47 @@ router.use(
 
     onProxyReq: (proxyReq, req) => {
       // Forward user info
-      if (req.user) {
-        proxyReq.setHeader("x-user-id", req.user.id);
-        proxyReq.setHeader("x-user-role", req.user.role);
+      if (req?.user) {
+        proxyReq.setHeader("x-user-id", req.user?.id);
+        proxyReq.setHeader("x-company-id", req?.user?.companyId);
       }
     },
   }),
 );
 
 /* MOBILE SERVICE */
+
+/* AUTH SERVICE */
+router.use(
+  "/authentication/mobile",
+  createProxyMiddleware({
+    target: process.env.MOBILE_SERVICE,
+    changeOrigin: true,
+    pathRewrite: {
+      "^/authentication/mobile": "",
+    },
+  }),
+);
+
+
 router.use(
   "/mobile",
+  verifyMobileToken,
   createProxyMiddleware({
     target: process.env.MOBILE_SERVICE,
     changeOrigin: true,
     pathRewrite: { "^/mobile": "" },
+
+    onProxyReq: (proxyReq, req) => {
+      // Forward user info
+      if (req?.user) {
+        proxyReq.setHeader("x-user-id", req.user?.id);
+        proxyReq.setHeader("x-driver-id", req?.user?.driverId);
+        proxyReq.setHeader("x-company-id", req?.user?.companyId);
+
+      }
+    },
   }),
 );
-
 
 export default router;
