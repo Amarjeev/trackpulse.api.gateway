@@ -61,7 +61,6 @@ router.use(
   }),
 );
 
-
 router.use(
   "/mobile",
   verifyMobileToken,
@@ -76,10 +75,10 @@ router.use(
         proxyReq.setHeader("x-user-id", req.user?.id);
         proxyReq.setHeader("x-driver-id", req?.user?.driverId);
         proxyReq.setHeader("x-company-id", req?.user?.companyId);
-
       }
     },
   }),
 );
+
 
 export default router;
