@@ -8,13 +8,13 @@ import {
 const router = express.Router();
 
 /* 🔥 GLOBAL DEBUG (before proxy) */
-router.use((req, res, next) => {
-  console.log("\n🔥 GATEWAY HIT");
-  console.log("URL:", req.originalUrl);
-  console.log("METHOD:", req.method);
-  console.log("BODY:", req.body);
-  next();
-});
+// router.use((req, res, next) => {
+//   console.log("\n🔥 GATEWAY HIT");
+//   console.log("URL:", req.originalUrl);
+//   console.log("METHOD:", req.method);
+//   console.log("BODY:", req.body);
+//   next();
+// });
 
 /* AUTH SERVICE */
 router.use(
